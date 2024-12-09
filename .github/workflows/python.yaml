@@ -1,0 +1,25 @@
+name: Python
+
+on:
+  push:
+    paths:
+      - python/Dockerfile
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+        matrix:
+            python_version: [3.12, 3.13]
+    uses: ./.github/workflows/build-and-push.yaml
+    with:
+        tag: python${{ matrix.python_version }}
+        context: python
+        platforms: linux/arm64
+        base_image: arm64v8/python:${{ matrix.python_version }}-slim-bullseye
+        function_dir: /function

@@ -1,0 +1,32 @@
+name: Python Selenium es_MX
+
+on:
+  push:
+    paths:
+      - python-selenium-es_MX/Dockerfile
+    branches:
+      - master
+  workflow_run:
+    types:
+      - completed
+    workflows:
+      - Python Selenium
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+        matrix:
+            python_version: [3.12, 3.13]
+    uses: ./.github/workflows/build-and-push.yaml
+    with:
+        tag: python${{ matrix.python_version }}-selenium-es_MX
+        context: python-selenium-es_MX
+        platforms: linux/arm64
+        base_image: ghcr.io/isaacasancheza/lambda-images:python${{ matrix.python_version }}-selenium
+        function_dir: /function
