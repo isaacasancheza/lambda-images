@@ -15,7 +15,7 @@ RUN apt-get update \
     && apt-get install -y g++ make cmake unzip libcurl4-openssl-dev
 
 # install the runtime interface client
-RUN pip install --disable-pip-version-check --root-user-action ignore --target ${FUNCTION_DIR} awslambdaric
+RUN uv pip install --system --target ${FUNCTION_DIR} awslambdaric
 
 FROM ${BASE_IMAGE}
 
